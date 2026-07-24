@@ -1,8 +1,14 @@
 package com.example.proyectocasas.ui.pantallas
 
+import android.R
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
@@ -10,6 +16,7 @@ import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -31,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil3.compose.rememberAsyncImagePainter
 import com.example.proyectocasas.ui.theme.ProyectocasasTheme
 
 
@@ -39,13 +47,22 @@ fun PantallaFomulario (navController: NavController){
     val focusManager = LocalFocusManager.current
     val nombreState = rememberTextFieldState()
     val descripcionState = rememberTextFieldState()
+    var imageUri by remember { mutableStateOf<Uri?>(null) }
+
+    // Launcher del selector de imágenes
+    val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) {
+        uri: Uri? -> imageUri = uri
+    }
 
     var nombreTocado by remember { mutableStateOf(false) }
     var descripcionTocado by remember { mutableStateOf(false) }
 
     Scaffold(
-        modifier = Modifier.fillMaxSize().padding(16.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
     ) { innerPadding ->
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -89,7 +106,7 @@ fun PantallaFomulario (navController: NavController){
                     ),
                     onKeyboardAction = { focusManager.clearFocus() },
                     modifier = Modifier
-                        .padding(bottom = 16.dp)
+                        .padding(bottom = 8.dp)
                         .fillMaxWidth()
                         .onFocusChanged { if (it.isFocused) descripcionTocado = true },
                     label = {Text("Descripción de la casa")},
@@ -104,6 +121,23 @@ fun PantallaFomulario (navController: NavController){
                         maxHeightInLines = 5  // Altura máxima antes de hacer scroll
                     )
                 )
+
+                imageUri?.let{
+                    Image(
+                        painter = rememberAsyncImagePainter(it ),
+                        contentDescription = "Imagen seleccionada",
+                        modifier = Modifier.fillMaxWidth().height(200.dp)
+                    )
+                }
+
+                OutlinedButton(
+                    modifier = Modifier
+                        .padding(bottom = 16.dp),
+                    onClick = { launcher.launch("image/*") }
+                ){
+                    Text(text = "Seleccionar imagen")
+                }
+
                 Button(
                     enabled = nombreState.text.isNotBlank() && descripcionState.text.length >= 10,
                     modifier = Modifier.width(150.dp),
