@@ -35,12 +35,11 @@ fun PantallaInicio (navController: NavController) {
             Text(
                 text = "Bienvenido a la Galeria de Casas",
                 modifier = Modifier.padding(bottom = 16.dp),
-                fontSize = 24.sp,
                 fontWeight = FontWeight.SemiBold,
                 style = MaterialTheme.typography.headlineSmall
             )
             Button(
-                modifier = Modifier.padding(bottom = 16.dp),
+                modifier = Modifier.padding(bottom = 8.dp),
                 onClick = {
                     navController.navigate("galeria")
                 }
@@ -48,11 +47,20 @@ fun PantallaInicio (navController: NavController) {
                 Text(text = "Ver Galería")
             }
             Button(
+                modifier = Modifier.padding(bottom = 8.dp),
                 onClick = {
                     navController.navigate("info")
                 }
             ) {
                 Text(text = "Sobre la app")
+            }
+            Button(
+                modifier = Modifier.padding(bottom = 8.dp),
+                onClick = {
+                    navController.navigate("formulario")
+                }
+            ) {
+                Text(text = "Registrar nueva casa")
             }
         }
     }

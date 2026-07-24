@@ -17,6 +17,7 @@ import com.example.proyectocasas.ui.pantallas.PantallaDetalle
 import com.example.proyectocasas.ui.pantallas.PantallaGaleria
 import com.example.proyectocasas.ui.pantallas.PantallaInfo
 import com.example.proyectocasas.ui.pantallas.PantallaInicio
+import com.example.proyectocasas.ui.pantallas.PantallaFomulario
 import com.example.proyectocasas.ui.theme.ProyectocasasTheme
 
 class MainActivity : ComponentActivity() {
@@ -48,6 +49,7 @@ fun CasaApp() {
                 val casaId = backStackEntry.arguments?.getString("casaId")
                 PantallaDetalle(casaId?.toInt() ?: 0, navController)
             }
+            composable("formulario") { PantallaFomulario(navController) }
 
         }
     }
