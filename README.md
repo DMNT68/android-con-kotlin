@@ -17,18 +17,6 @@
 - **Oficial para Android** — Google lo adoptó como lenguaje oficial en 2019. La mayoría de las nuevas APIs, librerías y herramientas de Android están optimizadas para Kotlin.
 - **Jetpack Compose** — El toolkit moderno de UI declarativa para Android está diseñado nativamente para Kotlin, aprovechando sus características como lambdas, `@Composable` y `State`.
 
-## Progresión del Curso
-
-| # | Proyecto | Tipo | Temática |
-|---|---|---|---|
-| **01** | [`01-fundamentos`](./01-fundamentos) | Consola Kotlin | Variables, funciones, arrays, bucles, clases, constructores |
-| **02** | [`02-trabajoconoperadores`](./02-trabajoconoperadores) | App Android (XML) | Operadores lógicos/relacionales, `when`, `if` como expresión, ViewBinding, Fragments |
-| **03** | [`03-trabajoconcondicionalesybucles`](./03-trabajoconcondicionalesybucles) | App Android (XML) | Juego "Adivina el número", condicionales, `Toast`, `data class` |
-| **04** | [`04-calculoFactorial`](./04-calculoFactorial) | App Android (XML) | Bucle `for`, cálculo factorial, `toIntOrNull()`, `findViewById` |
-| **05** | [`05-POO_1`](./05-POO_1) | App Android (XML) | POO completa: herencia, `data class`, `companion object`, clases anidadas, polimorfismo |
-| **06** | [`06-proyectocasas`](./06-proyectocasas) | App Android (Compose) | Jetpack Compose, Navigation, `LazyColumn`, gestos zoom, animaciones, Material 3 |
-| **07** | [`07-Extra-JetpackPruebas`](./07-Extra-JetpackPruebas) | App Android (Compose) | Fundamentos Jetpack Compose: `TextField`, estado, eventos, composables reutilizables |
-
 ## Descripción del Proyecto
 
 Este repositorio contiene los proyectos desarrollados durante el curso de **Android con Kotlin** de [Píldoras Informáticas](https://www.youtube.com/playlist?list=PLU8oAlHdN5BkdfBPpNv_lVCJxJgE87cr0). A lo largo del curso se recorren los fundamentos del lenguaje Kotlin, la programación orientada a objetos, el desarrollo de aplicaciones Android con XML (Views) y finalmente la UI declarativa moderna con Jetpack Compose.
