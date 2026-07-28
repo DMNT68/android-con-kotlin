@@ -23,6 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil3.compose.rememberAsyncImagePainter
+import com.example.proyectocasas.R
 import com.example.proyectocasas.data.RepositorioCasas
 import com.example.proyectocasas.ui.theme.ProyectocasasTheme
 
@@ -51,8 +53,9 @@ fun PantallaGaleria (navController: NavController) {
                         }
                 ) {
                     Row(modifier = Modifier.padding(8.dp)) {
+
                         Image(
-                            painter = painterResource(id = casa.imagenId),
+                            painter = if (casa.imagenUri != null)  rememberAsyncImagePainter(casa.imagenUri) else painterResource(id = casa.imagenId ?: R.drawable.noimage),
                             contentDescription = casa.nombre,
                             modifier = Modifier.size(80.dp)
                         )

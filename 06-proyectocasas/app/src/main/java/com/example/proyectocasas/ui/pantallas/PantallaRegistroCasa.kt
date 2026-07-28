@@ -39,6 +39,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil3.compose.rememberAsyncImagePainter
+import com.example.proyectocasas.data.Casa
+import com.example.proyectocasas.data.RepositorioCasas
 import com.example.proyectocasas.ui.theme.ProyectocasasTheme
 
 
@@ -139,13 +141,20 @@ fun PantallaFomulario (navController: NavController){
                 }
 
                 Button(
-                    enabled = nombreState.text.isNotBlank() && descripcionState.text.length >= 10,
+                    enabled = nombreState.text.isNotBlank() && descripcionState.text.length >= 10 && imageUri != null,
                     modifier = Modifier.width(150.dp),
                     onClick = {
                         nombreTocado = true
                         descripcionTocado = true
-                        if(nombreState.text.isNotBlank() && descripcionState.text.length >= 10){
-                            navController.popBackStack()
+                        if(nombreState.text.isNotBlank() && descripcionState.text.length >= 10 && imageUri != null){
+                            val nuevaCasa = Casa(
+                                RepositorioCasas.listaCasas.size + 1,
+                                nombreState.text.toString(),
+                                null,
+                                imageUri,
+                                descripcionState.text.toString())
+                            RepositorioCasas.addCasa(nuevaCasa)
+                            navController.navigate("galeria")
                         }
                     }
                 ){
