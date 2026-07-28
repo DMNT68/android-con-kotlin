@@ -30,3 +30,5 @@ Este repositorio contiene los proyectos desarrollados durante el curso de **Andr
 5. [POO_1](./05-POO_1) — POO completa: herencia, `data class`, `companion object`, clases anidadas, polimorfismo
 6. [Proyecto Casas](./06-proyectocasas) — Jetpack Compose, Navigation, `LazyColumn`, gestos zoom, animaciones, Material 3
 7. [JetPack Pruebas](./07-Extra-JetpackPruebas) — Fundamentos Jetpack Compose: `TextField`, estado, eventos, composables reutilizables
+8. [Persistencia con Room](./08-persistencia-room) — Room, `@Dao`, `@Query`, `@Insert`, `@Update`, `@Delete`, `@Query`
+
