@@ -28,6 +28,7 @@ La aplicación es una galería interactiva de casas que permite a los usuarios:
 - **remember & mutableStateOf**: Preservación del estado local durante la recomposición.
 - **Hoisting de Estado**: Patrón para mover el estado a composables superiores y mejorar la reusabilidad.
 - **TextFieldState**: Uso de la nueva API de Foundation para una gestión de texto más potente y eficiente.
+- **Listas Mutables Observables**: Uso de `mutableStateListOf` en el repositorio para garantizar que la interfaz se actualice automáticamente al añadir nuevas casas.
 
 ### Animaciones y Gestos
 - **animateFloatAsState**: Animaciones fluidas para propiedades como la escala y la transparencia.
@@ -41,6 +42,8 @@ La aplicación es una galería interactiva de casas que permite a los usuarios:
 - **Validación en Tiempo Real**: Uso de estados de "tocado" (onFocusChanged) para mostrar errores solo cuando es necesario.
 - **lineLimits**: Configuración de áreas de texto con límites de crecimiento dinámicos.
 - **ActivityResult API**: Uso de rememberLauncherForActivityResult para seleccionar imágenes de la galería del dispositivo.
+- **Habilitación Condicional**: Lógica para habilitar el botón de acción solo cuando los datos cumplen con los requisitos mínimos (nombre, longitud de descripción e imagen seleccionada).
+- **Persistencia Dinámica**: Implementación de la creación de objetos de datos en tiempo de ejecución y su inserción en el repositorio global.
 
 ### Librerías Externas
 - **Coil**: Carga de imágenes asíncrona desde URLs o recursos locales (rememberAsyncImagePainter).
