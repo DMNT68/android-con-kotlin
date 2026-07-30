@@ -4,44 +4,45 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModelProvider
+import com.example.persistenciadedatosconroom.ui.PantallaTareas
+import com.example.persistenciadedatosconroom.ui.PantallaTareasContent
+import com.example.persistenciadedatosconroom.ui.TareaViewModel
 import com.example.persistenciadedatosconroom.ui.theme.PersistenciaDeDatosConRoomTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Forma correcta de obtener el ViewModel con Application context
+        val viewModel = ViewModelProvider(this)[TareaViewModel::class.java]
+        
         enableEdgeToEdge()
         setContent {
             PersistenciaDeDatosConRoomTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                TareasApp(viewModel)
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun TareasApp(viewModel: TareaViewModel) {
+    PantallaTareas(viewModel)
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun TareasAppPreview() {
     PersistenciaDeDatosConRoomTheme {
-        Greeting("Android")
+        // En el preview usamos la versión sin estado (Stateless)
+        PantallaTareasContent(
+            lista = emptyList(),
+            onAgregarTarea = {},
+            onEliminarTarea = {},
+            onActualizarTarea = {}
+        )
     }
 }
