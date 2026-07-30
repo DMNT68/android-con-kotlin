@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -34,5 +35,8 @@ interface TareoDao {
      */
     @Delete
     suspend fun eliminar(tarea: Tarea)
+
+    @Update
+    suspend fun actualizar(tarea: Tarea)
 
 }
