@@ -37,9 +37,9 @@ import com.example.persistenciadedatosconroom.ui.theme.PersistenciaDeDatosConRoo
 @Composable
 fun PantallaTareas(viewModel: TareaViewModel) {
     val lista by viewModel.tareas.collectAsState(initial = emptyList())
-    
+
     PantallaTareasContent(
-        lista = lista,
+        lista = lista.filter { tarea -> !tarea.completada },
         onAgregarTarea = { viewModel.agregarTareas(it) },
         onEliminarTarea = { viewModel.eliminarTarea(it) },
         onActualizarTarea = { viewModel.actualizarTarea(it) }
@@ -53,12 +53,20 @@ fun PantallaTareasContent(
     onEliminarTarea: (Tarea) -> Unit,
     onActualizarTarea: (Tarea) -> Unit
 ) {
+
     var texto by remember { mutableStateOf("") }
     var textoTocado by remember { mutableStateOf(false) }
 
-    Scaffold(modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)) { innerPadding ->
+    val openDialog = remember { mutableStateOf(false) }
+    var tareaSeleccionada by remember { mutableStateOf<Tarea?>(null) }
+
+    Scaffold(modifier = Modifier
+        .fillMaxSize()
+        .padding(horizontal = 16.dp)) { innerPadding ->
         Column(modifier = Modifier
-            .padding(innerPadding),
+            .padding(innerPadding)
+            .padding(vertical = 8.dp)
+            .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             OutlinedTextField(
@@ -82,9 +90,9 @@ fun PantallaTareasContent(
             )
             Button(
                 enabled = texto.isNotBlank(),
-                modifier = Modifier.
-                    fillMaxWidth().
-                    padding(bottom = 8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp),
                 onClick = {
                     if (texto.isNotBlank()) {
                         onAgregarTarea(texto)
@@ -95,14 +103,14 @@ fun PantallaTareasContent(
             ) {
                 Text("Añadir tarea")
             }
-            if(lista.isNotEmpty()){
+            if (lista.isNotEmpty()){
                 LazyColumn(modifier = Modifier
                     .fillMaxSize()
                 ) {
                     items(lista) { tarea ->
                         Card(modifier = Modifier
-                            .fillMaxWidth().
-                            padding(bottom = 8.dp)
+                            .fillMaxWidth()
+                            .padding(bottom = 8.dp)
                         ) {
                             Row(
                                 modifier = Modifier
@@ -128,7 +136,12 @@ fun PantallaTareasContent(
                                                 contentDescription = "Eliminar"
                                             )
                                         }
-                                        IconButton(onClick = { /* TODO: Implement modify */ }) {
+                                        IconButton(
+                                            onClick = {
+                                                tareaSeleccionada = tarea
+                                                openDialog.value = true
+                                            }
+                                        ) {
                                             Icon(
                                                 painter = painterResource(id = R.drawable.ic_edit),
                                                 contentDescription = "Modificar"
@@ -149,16 +162,45 @@ fun PantallaTareasContent(
             }
         }
     }
+
+    when {
+        openDialog.value -> {
+            DialogUpdate(
+                tarea = tareaSeleccionada,
+                onDismiss = { openDialog.value = false },
+                onConfirm = { openDialog.value = false },
+                actualizarTarea = { nuevoTitulo ->
+                    tareaSeleccionada?.let { tarea ->
+                        onActualizarTarea(tarea.copy(titulo = nuevoTitulo))
+                    }
+                }
+            )
+        }
+    }
 }
 
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun PantallaTareasPreview() {
     PersistenciaDeDatosConRoomTheme {
         PantallaTareasContent(
             lista = listOf(
-                Tarea(1, "Tarea 1")
+                Tarea(1, "Tarea 1", completada = false),
+                Tarea(2, "Tarea 1", completada = false),
+                Tarea(3, "Tarea 1", completada = false),
+                Tarea(4, "Tarea 2", completada = false),
+                Tarea(5, "Tarea 1", completada = false),
+                Tarea(6, "Tarea 1", completada = false),
+                Tarea(7, "Tarea 1", completada = false),
+                Tarea(8, "Tarea 1", completada = false),
+                Tarea(9, "Tarea 1", completada = false),
+                Tarea(10, "Tarea 1", completada = false),
+                Tarea(11, "Tarea 1", completada = false),
+                Tarea(12, "Tarea 1", completada = false),
+                Tarea(13, "Tarea 1", completada = false),
+                Tarea(14, "Tarea 1", completada = false),
+                Tarea(15, "Tarea 1", completada = false),
             ),
             onAgregarTarea = {},
             onEliminarTarea = {},
