@@ -14,7 +14,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -60,108 +59,106 @@ fun PantallaTareasContent(
     val openDialog = remember { mutableStateOf(false) }
     var tareaSeleccionada by remember { mutableStateOf<Tarea?>(null) }
 
-    Scaffold(modifier = Modifier
+    Column(modifier = Modifier
         .fillMaxSize()
-        .padding(horizontal = 16.dp)) { innerPadding ->
-        Column(modifier = Modifier
-            .padding(innerPadding)
-            .padding(vertical = 8.dp)
-            .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            OutlinedTextField(
-                keyboardOptions = KeyboardOptions(
-                    capitalization = KeyboardCapitalization.Words,
-                    imeAction = ImeAction.Next
-                ),
-                modifier = Modifier
-                    .padding(bottom = 8.dp)
-                    .fillMaxWidth()
-                    .onFocusChanged { if (it.isFocused) textoTocado = true },
-                value = texto,
-                onValueChange = { texto = it },
-                label = { Text("Nueva tarea") },
-                isError = textoTocado && texto.isBlank(),
-                supportingText = {
-                    if (textoTocado && texto.isBlank()) {
-                        Text("El nombre es obligatorio")
-                    }
-                },
-            )
-            Button(
-                enabled = texto.isNotBlank(),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp),
-                onClick = {
-                    if (texto.isNotBlank()) {
-                        onAgregarTarea(texto)
-                        texto = ""
-                        textoTocado = false
-                    }
+        .padding(horizontal = 16.dp)
+        .padding(vertical = 8.dp)
+        .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        OutlinedTextField(
+            keyboardOptions = KeyboardOptions(
+                capitalization = KeyboardCapitalization.Words,
+                imeAction = ImeAction.Next
+            ),
+            modifier = Modifier
+                .padding(bottom = 8.dp)
+                .fillMaxWidth()
+                .onFocusChanged { if (it.isFocused) textoTocado = true },
+            value = texto,
+            onValueChange = { texto = it },
+            label = { Text("Nueva tarea") },
+            isError = textoTocado && texto.isBlank(),
+            supportingText = {
+                if (textoTocado && texto.isBlank()) {
+                    Text("El nombre es obligatorio")
                 }
-            ) {
-                Text("Añadir tarea")
+            },
+        )
+        Button(
+            enabled = texto.isNotBlank(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp),
+            onClick = {
+                if (texto.isNotBlank()) {
+                    onAgregarTarea(texto)
+                    texto = ""
+                    textoTocado = false
+                }
             }
-            if (lista.isNotEmpty()){
-                LazyColumn(modifier = Modifier
-                    .fillMaxSize()
-                ) {
-                    items(lista) { tarea ->
-                        Card(modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 8.dp)
+        ) {
+            Text("Añadir tarea")
+        }
+        if (lista.isNotEmpty()){
+            LazyColumn(modifier = Modifier
+                .fillMaxSize()
+            ) {
+                items(lista) { tarea ->
+                    Card(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier
+                            .fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Row(
-                                modifier = Modifier
-                                .fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                IconButton(onClick = {
-                                    onActualizarTarea(tarea.copy(completada = !tarea.completada))
-                                }) {
-                                    Icon(
-                                        painter = painterResource(id = if (tarea.completada) R.drawable.ic_check else R.drawable.ic_check_blank),
-                                        contentDescription = "Eliminar"
-                                    )
-                                }
-                                Column(modifier = Modifier.weight(1f)) {
-                                    Text(tarea.titulo, modifier = Modifier.padding(16.dp))
-                                }
-                                Column() {
-                                    Row() {
-                                        IconButton(onClick = { onEliminarTarea(tarea) }) {
-                                            Icon(
-                                                painter = painterResource(id = R.drawable.ic_delete),
-                                                contentDescription = "Eliminar"
-                                            )
+                            IconButton(onClick = {
+                                onActualizarTarea(tarea.copy(completada = !tarea.completada))
+                            }) {
+                                Icon(
+                                    painter = painterResource(id = if (tarea.completada) R.drawable.ic_check else R.drawable.ic_check_blank),
+                                    contentDescription = "Eliminar"
+                                )
+                            }
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(tarea.titulo, modifier = Modifier.padding(16.dp))
+                            }
+                            Column() {
+                                Row() {
+                                    IconButton(onClick = { onEliminarTarea(tarea) }) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.ic_delete),
+                                            contentDescription = "Eliminar"
+                                        )
+                                    }
+                                    IconButton(
+                                        onClick = {
+                                            tareaSeleccionada = tarea
+                                            openDialog.value = true
                                         }
-                                        IconButton(
-                                            onClick = {
-                                                tareaSeleccionada = tarea
-                                                openDialog.value = true
-                                            }
-                                        ) {
-                                            Icon(
-                                                painter = painterResource(id = R.drawable.ic_edit),
-                                                contentDescription = "Modificar"
-                                            )
-                                        }
+                                    ) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.ic_edit),
+                                            contentDescription = "Modificar"
+                                        )
                                     }
                                 }
                             }
                         }
                     }
                 }
-            } else {
-                Text(
-                    "Lista de tareas vacia",
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(16.dp)
-                )
             }
+        } else {
+            Text(
+                "Lista de tareas vacia",
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(16.dp)
+            )
         }
     }
+
 
     when {
         openDialog.value -> {
